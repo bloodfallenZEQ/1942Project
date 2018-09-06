@@ -54,6 +54,22 @@
            }
         
         var moverPersonaje=moverDerecha;
+
+     
+          //Enemigo
+          var enemigo = function () {
+              var x = 100, y = 1;
+
+              this.actualizar= function () {
+                  y++;
+              };
+
+              this.dibujar= function (contexto) {
+                  contexto.drawImage(spriteSheet, 5, 200, 14, 15, x, y, 30, 50);
+              };
+          }
+          
+          var miEnemigo = new enemigo();
     
 
         spriteSheet.onload = function () {
@@ -75,6 +91,9 @@
            //Obtenemos uno de los objetos del vector
             var imagenActual = posiciones[indiceAnimacion];
             
+            miEnemigo.actualizar();
+            miEnemigo.dibujar(contexto);
+
             contexto.drawImage(spriteSheet, imagenActual.x, imagenActual.y, 25, 16, x, y, 70, 50);
             moverPersonaje();
             
