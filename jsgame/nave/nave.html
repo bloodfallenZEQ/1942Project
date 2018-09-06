@@ -93,16 +93,19 @@
                 ultimoCuadro=esteCuadro;
                 tiempoAcumulado+=delta;
 
-            for(var i = 0; i< enemigos.length; i++){
-                enemigos[i].actualizar();
-                enemigos[i].dibujar(contexto);
-            }
+            
 
            //Obtenemos uno de los objetos del vector
             var imagenActual = posiciones[indiceAnimacion];
             
-            miEnemigo.actualizar();
+           /* miEnemigo.actualizar();
             miEnemigo.dibujar(contexto);
+           */
+           
+            for(var i = 0; i< enemigos.length; i++){
+                enemigos[i].actualizar();
+                enemigos[i].dibujar(contexto);
+            }
             
             contexto.drawImage(spriteSheet, imagenActual.x, imagenActual.y, 25, 16, x, y, 70, 50);
             moverPersonaje();
