@@ -58,7 +58,7 @@
      
           //Enemigo
           var enemigo = function () {
-              var x = 100, y = 1;
+              var x = (Math.random()*400) + 40, y = 1;
 
               this.actualizar= function () {
                   y++;
@@ -68,10 +68,15 @@
                   contexto.drawImage(spriteSheet, 5, 200, 14, 15, x, y, 30, 50);
               };
           }
-          
-          var miEnemigo = new enemigo();
-    
 
+          var miEnemigo = new enemigo();
+
+          var enemigos = [];
+          for (var i = 0; i < 10; i++){
+              enemigos.push(new enemigo());
+          }
+          
+        
         spriteSheet.onload = function () {
             setInterval(actualizarJuego, 1000 / 33);
         };
@@ -88,12 +93,17 @@
                 ultimoCuadro=esteCuadro;
                 tiempoAcumulado+=delta;
 
+            for(var i = 0; i< enemigos.length; i++){
+                enemigos[i].actualizar();
+                enemigos[i].dibujar(contexto);
+            }
+
            //Obtenemos uno de los objetos del vector
             var imagenActual = posiciones[indiceAnimacion];
             
             miEnemigo.actualizar();
             miEnemigo.dibujar(contexto);
-
+            
             contexto.drawImage(spriteSheet, imagenActual.x, imagenActual.y, 25, 16, x, y, 70, 50);
             moverPersonaje();
             
@@ -101,9 +111,9 @@
                 moverPersonaje=moverIzquierda;
             }
 
-            if (x<1) {
+            /*if (x<0) {
                 moverPersonaje=moverDerecha;
-            }
+            }*/
            
            
             
