@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 
-<body>
+<body onkeydown="teclaPresionada(event);">
     <!-- Lienzo de dibujo -->
     <canvas id="miCanvas" width="640" height="480"></canvas>
 
@@ -30,98 +30,119 @@
         var spriteSheet = new Image();
         var x = 10;
         var y = 10;
-        var posiciones = [{x: 38, y: 6, ancho: 24, alto: 16},
-                          {x: 101, y: 6, ancho: 24, alto: 16},
-                          {x: 166, y: 6,ancho: 24, alto: 16}];
-        var indiceAnimacion=0;
-        var ultimoCuadro=new Date().getTime();
-        var tiempoAcumulado=0;
-      
-        var moverDerecha = function() {
-                x++;
+        var posiciones = [{ x: 38, y: 6, ancho: 24, alto: 16 },
+        { x: 101, y: 6, ancho: 24, alto: 16 },
+        { x: 166, y: 6, ancho: 24, alto: 16 }];
+        var indiceAnimacion = 0;
+        var ultimoCuadro = new Date().getTime();
+        var tiempoAcumulado = 0;
+        var estaMoviendo = false;
+
+        var moverDerecha = function () {
+            x++;
             if (indiceAnimacion < 2 && tiempoAcumulado > 1) {
                 tiempoAcumulado = 0;
                 indiceAnimacion++;
             }
-           }
+        }
 
-           var moverIzquierda = function() {
-               x--;
+        var moverIzquierda = function () {
+            x--;
             if (indiceAnimacion > 0 && tiempoAcumulado > 1) {
                 tiempoAcumulado = 0;
                 indiceAnimacion--;
             }
-           }
-        
-        var moverPersonaje=moverDerecha;
+        }
 
-     
-          //Enemigo
-          var enemigo = function () {
-              var x = (Math.random()*400) + 40, y = 1;
+        var moverPersonaje = moverDerecha;
 
-              this.actualizar= function () {
-                  y++;
-              };
 
-              this.dibujar= function (contexto) {
-                  contexto.drawImage(spriteSheet, 5, 200, 14, 15, x, y, 30, 50);
-              };
-          }
+        //Enemigo
+        var enemigo = function () {
+            var x = (Math.random() * 400) + 40, y = 1;
 
-          var miEnemigo = new enemigo();
+            this.actualizar = function () {
+                y++;
+            };
 
-          var enemigos = [];
-          for (var i = 0; i < 10; i++){
-              enemigos.push(new enemigo());
-          }
-          
-        
+            this.dibujar = function (contexto) {
+                contexto.drawImage(spriteSheet, 5, 200, 14, 15, x, y, 30, 50);
+            };
+        }
+
+        var miEnemigo = new enemigo();
+
+        var enemigos = [];
+        for (var i = 0; i < 10; i++) {
+            enemigos.push(new enemigo());
+        }
+
+
         spriteSheet.onload = function () {
             setInterval(actualizarJuego, 1000 / 33);
         };
         spriteSheet.src = "../images/1942-general-sprites.png";
 
+        function teclaPresionada(event) {
+                var tecla=event.keyCode;
+
+                switch (tecla){
+                    case 65:
+                    brake;
+
+                    case 83:
+                    brake;
+
+                    case 68:
+                    brake;
+
+                    case 87:
+                    brake;
+                }
+            }
+
         function actualizarJuego() {
-          
+
 
             contexto.fillStyle = "white";
             contexto.fillRect(0, 0, 640, 480);
-         
-            var esteCuadro=new Date().getTime(),
-                delta=(esteCuadro-ultimoCuadro)/1000;
-                ultimoCuadro=esteCuadro;
-                tiempoAcumulado+=delta;
 
-            
+            var esteCuadro = new Date().getTime(),
+                delta = (esteCuadro - ultimoCuadro) / 1000;
+            ultimoCuadro = esteCuadro;
+            tiempoAcumulado += delta;
 
-           //Obtenemos uno de los objetos del vector
+
+
+            //Obtenemos uno de los objetos del vector
             var imagenActual = posiciones[indiceAnimacion];
-            
-           /* miEnemigo.actualizar();
-            miEnemigo.dibujar(contexto);
-           */
-           
-            for(var i = 0; i< enemigos.length; i++){
+
+            /*miEnemigo.actualizar();
+            miEnemigo.dibujar(contexto);*/
+
+
+            for (var i = 0; i < enemigos.length; i++) {
                 enemigos[i].actualizar();
                 enemigos[i].dibujar(contexto);
             }
-            
+
             contexto.drawImage(spriteSheet, imagenActual.x, imagenActual.y, 25, 16, x, y, 70, 50);
             moverPersonaje();
-            
-            if (x>200) {
-                moverPersonaje=moverIzquierda;
+
+            if (x > 200) {
+                moverPersonaje = moverIzquierda;
             }
 
             /*if (x<0) {
                 moverPersonaje=moverDerecha;
             }*/
-           
-           
-            
 
             
+
+
+
+
+
         }
     </script>
     <style>
