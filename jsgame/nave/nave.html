@@ -12,11 +12,11 @@
     <link rel="apple-touch-icon" href="icon.png">
     <!-- Place favicon.ico in the root directory -->
 
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/main.css">
+    <!--<link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">-->
 </head>
 
-<body onkeydown="teclaPresionada(event);">
+<body onkeydown="teclaPresionada(event);" onkeyup="teclaNoPresionada();">
     <!-- Lienzo de dibujo -->
     <canvas id="miCanvas" width="640" height="480"></canvas>
 
@@ -83,23 +83,46 @@
         };
         spriteSheet.src = "../images/1942-general-sprites.png";
 
+         function teclaNoPresionada(){
+            estaMoviendo=false;
+        }
+   
         function teclaPresionada(event) {
-                var tecla=event.keyCode;
-
-                switch (tecla){
+                console.log(event);
+            var tecla = event.keyCode;
+                switch(tecla){
                     case 65:
-                    brake;
+                    x--;
+                    estaMoviendo=true;
+                    if(indiceAnimacion>0 && tiempoAcumulado>1){
+                        tiempoAcumulado = 0;
+                        indiceAnimacion--;
+                    }
+                    break;
 
                     case 83:
-                    brake;
+                    y++;
+                    break;
 
                     case 68:
-                    brake;
+                    x++;
+                    estaMoviendo=true;
+                    //indiceAnimacion <4
+                    if (indiceAnimacion<2 && tiempoAcumulado>1) {
+                        tiempoAcumulado =0;
+                        indiceAnimacion++;
+                        
+                    }
+                    break;
 
                     case 87:
-                    brake;
+                    y--;
+                    break;
                 }
+                console.log(indiceAnimacion);
             }
+
+       
 
         function actualizarJuego() {
 
@@ -125,7 +148,7 @@
                 enemigos[i].actualizar();
                 enemigos[i].dibujar(contexto);
             }
-
+         //console.log(imagenActual);
             contexto.drawImage(spriteSheet, imagenActual.x, imagenActual.y, 25, 16, x, y, 70, 50);
             moverPersonaje();
 
@@ -136,6 +159,14 @@
             /*if (x<0) {
                 moverPersonaje=moverDerecha;
             }*/
+
+            if (!estaMoviendo) {
+                if(indiceAnimacion !== 2 && tiempoAcumulado>1){
+                    tiempoAcumulado=0;
+                    indiceAnimacion -= indiceAnimacion>2 ? 1 : -1;
+                }
+            }
+
 
             
 
