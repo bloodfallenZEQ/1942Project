@@ -25,6 +25,18 @@
         var canvas = document.getElementById("miCanvas");
         //Establecemos el contexto de ese canvas en 2D. Es decir, dibujaremos en 2D.
         var contexto = canvas.getContext("2d");
+        //Manejo del juego con el mouse
+        canvas.addEventListener("click", clickMouse,false);
+        
+        var velocidadMovimiento =20,
+            objetivoX=0,
+            objetivoY=0;
+        
+        function clickMouse(event){
+            //console.log(event);
+            objetivoX=event.x;
+            objetivoY=event.y;
+        }
 
         //Cargamos imágenes (Página 53 del libro)
         var spriteSheet = new Image();
@@ -73,7 +85,7 @@
         }
 
         function teclaPresionada(event) {
-            console.log(event);
+            //console.log(event);
             var tecla = event.keyCode;
             teclasPresionadas[tecla] = true;
         }
@@ -91,7 +103,7 @@
             };
 
             this.dibujar = function (contexto) {
-                contexto.drawImage(spriteSheet, 5, 200, 14, 15, x, y, 30, 50);
+                contexto.drawImage(spriteSheet, 5, 200, 14, 15, x, y, 14, 15);
             };
         }
 
@@ -169,23 +181,11 @@
                 enemigos[i].dibujar(contexto);
             }
            // console.log(imagenActual);
-            contexto.drawImage(spriteSheet, imagenActual.x, imagenActual.y, 25, 16, x, y, 70, 50);
+            contexto.drawImage(spriteSheet, imagenActual.x, imagenActual.y, 25, 16, x, y, 25, 16);
           //  moverPersonaje();
 
-          /*  if (x > 200) {
-                moverPersonaje = moverIzquierda;
-            }*/
-
-            /*if (x<0) {
-                moverPersonaje=moverDerecha;
-            }*/
-
-            /*if (!estaMoviendo) {
-                if(indiceAnimacion !== 2 && tiempoAcumulado>1){
-                    tiempoAcumulado=0;
-                    indiceAnimacion -= indiceAnimacion>2 ? 1 : -1;
-                }
-            }*/
+          
+            
 
             if (teclasPresionadas['65']) {
                 x--;
@@ -218,6 +218,9 @@
                     indiceAnimacion -= indiceAnimacion > 2 ? 1 : -1;
                 }
             }
+
+            x += (objetivoX - x) / velocidadMovimiento;
+            y += (objetivoY - y) / velocidadMovimiento;
 
 
 
